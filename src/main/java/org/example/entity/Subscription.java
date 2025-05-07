@@ -1,0 +1,29 @@
+package org.example.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Data
+@Table(name = "subscriptions")
+@AllArgsConstructor
+@NoArgsConstructor
+public class Subscription {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String serviceName;
+
+    @ManyToMany(mappedBy = "subscriptionSet")
+    @JsonIgnore
+    private Set<User> users = new HashSet<>();
+}
