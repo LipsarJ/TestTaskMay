@@ -5,11 +5,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.responses.CommonErrorApiResponses;
-import org.example.responses.CommonErrorApiResponsesWith404;
 import org.example.dto.request.RequestUserDTO;
 import org.example.dto.response.ResponseUserDTO;
-import org.example.service.impl.UserServiceImpl;
+import org.example.responses.CommonErrorApiResponses;
+import org.example.responses.CommonErrorApiResponsesWith404;
+import org.example.service.UserService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserServiceImpl userServiceImpl;
+    private final UserService userService;
 
     @Operation(summary = "Получение пользователя по id")
     @ApiResponse(responseCode = "200", description = "Успешное выполнение операции",
@@ -28,7 +28,7 @@ public class UserController {
     @CommonErrorApiResponsesWith404
     @GetMapping("/{id}")
     public ResponseEntity<ResponseUserDTO> getUserById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(userServiceImpl.getUserById(id));
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @Operation(summary = "Создание пользователя")
@@ -38,7 +38,7 @@ public class UserController {
     @CommonErrorApiResponses
     @PostMapping
     public ResponseEntity<ResponseUserDTO> createUser(@RequestBody RequestUserDTO userDTO) {
-        return ResponseEntity.ok(userServiceImpl.createUser(userDTO));
+        return ResponseEntity.ok(userService.createUser(userDTO));
     }
 
     @Operation(summary = "Обновление пользователя по id")
@@ -48,7 +48,7 @@ public class UserController {
     @CommonErrorApiResponsesWith404
     @PutMapping("/{id}")
     public ResponseEntity<ResponseUserDTO> updateUser(@PathVariable Long id, @RequestBody RequestUserDTO userDTO) {
-        return ResponseEntity.ok(userServiceImpl.updateUser(id, userDTO));
+        return ResponseEntity.ok(userService.updateUser(id, userDTO));
     }
 
     @Operation(summary = "Удаление пользователя по id")
@@ -56,6 +56,6 @@ public class UserController {
     @CommonErrorApiResponsesWith404
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userServiceImpl.deleteUser(id);
+        userService.deleteUser(id);
     }
 }

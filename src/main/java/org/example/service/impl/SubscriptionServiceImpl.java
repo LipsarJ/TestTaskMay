@@ -1,8 +1,6 @@
 package org.example.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.responses.Errors;
 import org.example.dto.entity.Subscription;
 import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
@@ -10,8 +8,10 @@ import org.example.exception.extend.subscription.SubscriptionNameIllegal;
 import org.example.exception.extend.subscription.SubscriptionNameTaken;
 import org.example.mapper.SubscriptionMapper;
 import org.example.repository.SubscriptionRepository;
+import org.example.responses.Errors;
 import org.example.service.SubscriptionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -42,6 +42,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<ResponseSubscriptionDTO> getTopOfSubscriptions() {
         List<Subscription> subscriptions = subscriptionRepo.findAll();
         return subscriptions.stream().sorted(Comparator.comparingInt((Subscription sub) -> sub.getUsers().size()).reversed())

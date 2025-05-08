@@ -1,6 +1,5 @@
 package org.example.service.impl;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.entity.Subscription;
 import org.example.dto.entity.User;
@@ -15,6 +14,7 @@ import org.example.repository.SubscriptionRepository;
 import org.example.repository.UserRepository;
 import org.example.service.UserSubscriptionService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +29,7 @@ public class UserSubscriptionServiceImpl implements UserSubscriptionService {
     private final SubscriptionMapper subscriptionMapper;
 
     @Override
+    @Transactional(readOnly = true)
     public List<ResponseSubscriptionDTO> getUserSubscriptions(Long userId) {
         User user = userRepo.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
         return user.getSubscriptionSet().stream().map(subscriptionMapper::toResponseSubscriptionDTO).collect(Collectors.toList());

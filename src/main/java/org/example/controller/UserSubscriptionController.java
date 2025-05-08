@@ -5,11 +5,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.responses.CommonErrorApiResponsesWith404;
 import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
 import org.example.dto.response.ResponseUserDTO;
-import org.example.service.impl.UserSubscriptionServiceImpl;
+import org.example.responses.CommonErrorApiResponsesWith404;
+import org.example.service.UserSubscriptionService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserSubscriptionController {
 
-    private final UserSubscriptionServiceImpl userSubscriptionServiceImpl;
+    private final UserSubscriptionService userSubscriptionService;
 
     @Operation(summary = "Получение подписок для пользователя по id")
     @ApiResponse(responseCode = "200", description = "Успешное выполнение операции",
@@ -30,7 +30,7 @@ public class UserSubscriptionController {
     @CommonErrorApiResponsesWith404
     @GetMapping
     public ResponseEntity<List<ResponseSubscriptionDTO>> getSubscriptions(@PathVariable Long id) {
-        return ResponseEntity.ok(userSubscriptionServiceImpl.getUserSubscriptions(id));
+        return ResponseEntity.ok(userSubscriptionService.getUserSubscriptions(id));
     }
 
     @Operation(summary = "Добавление подписки пользователю")
@@ -40,7 +40,7 @@ public class UserSubscriptionController {
     @CommonErrorApiResponsesWith404
     @PostMapping
     public ResponseEntity<ResponseUserDTO> addSubscription(@PathVariable Long id, @RequestBody RequestSubscriptionDTO requestSubscriptionDTO) {
-        return ResponseEntity.ok(userSubscriptionServiceImpl.addSubscription(id, requestSubscriptionDTO));
+        return ResponseEntity.ok(userSubscriptionService.addSubscription(id, requestSubscriptionDTO));
     }
 
     @Operation(summary = "Удаление подписки для пользователя по id")
@@ -48,6 +48,6 @@ public class UserSubscriptionController {
     @CommonErrorApiResponsesWith404
     @DeleteMapping("/{subId}")
     public void deleteSubscription(@PathVariable Long id, @PathVariable Long subId) {
-        userSubscriptionServiceImpl.deleteSubscription(id, subId);
+        userSubscriptionService.deleteSubscription(id, subId);
     }
 }
