@@ -1,5 +1,6 @@
-package org.example.controlleradvice;
+package org.example.controller.advice;
 
+import org.example.controlleradvice.SimpleResponse;
 import org.example.exception.BadDataException;
 import org.example.exception.NotFoundException;
 import org.springframework.http.HttpStatus;
@@ -9,6 +10,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<SimpleResponse> handleException(Exception ex) {
+        SimpleResponse simpleResponse = new SimpleResponse(ex.getMessage(), null);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(simpleResponse);
+    }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<SimpleResponse> handleNotFoundException(NotFoundException ex) {

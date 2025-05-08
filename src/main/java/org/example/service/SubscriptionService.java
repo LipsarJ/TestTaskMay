@@ -3,11 +3,13 @@ package org.example.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.controlleradvice.Errors;
+import org.example.dto.entity.Subscription;
+import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
-import org.example.entity.Subscription;
-import org.example.exception.extend.SubscriptionNameTaken;
+import org.example.exception.extend.subscription.SubscriptionNameIllegal;
+import org.example.exception.extend.subscription.SubscriptionNameTaken;
 import org.example.mapper.SubscriptionMapper;
-import org.example.repo.SubscriptionRepo;
+import org.example.repository.SubscriptionRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -18,16 +20,21 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SubscriptionService {
 
-    private final SubscriptionRepo subscriptionRepo;
+    private final SubscriptionRepository subscriptionRepo;
     private final SubscriptionMapper subscriptionMapper;
 
     @Transactional
-    public ResponseSubscriptionDTO createSubscription(dto.request.RequestSubscriptionDTO requestSubscriptionDTO) {
+    public ResponseSubscriptionDTO createSubscription(RequestSubscriptionDTO requestSubscriptionDTO) {
         Subscription subscription = new Subscription();
         if (subscriptionRepo.existsByServiceName(requestSubscriptionDTO.getServiceName())) {
             throw new SubscriptionNameTaken("Subscription with that name is already exists", Errors.SUB_NAME_TAKEN);
         }
-        subscription.setServiceName(requestSubscriptionDTO.getServiceName());
+
+        try {
+            subscription.setServiceName(requestSubscriptionDTO.getServiceName());
+        } catch (IllegalArgumentException e) {
+            throw new SubscriptionNameIllegal("Subscription has wrong name", Errors.SUB_NAME_ILLEGAL);
+        }
         subscriptionRepo.save(subscription);
         return subscriptionMapper.toResponseSubscriptionDTO(subscription);
     }

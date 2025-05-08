@@ -1,4 +1,4 @@
-package org.example.exception.extend;
+package org.example.exception.extend.subscription;
 
 import org.example.exception.NotFoundException;
 

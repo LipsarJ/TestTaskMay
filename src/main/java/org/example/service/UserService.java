@@ -3,20 +3,20 @@ package org.example.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.controlleradvice.Errors;
+import org.example.dto.entity.User;
 import org.example.dto.request.RequestUserDTO;
 import org.example.dto.response.ResponseUserDTO;
-import org.example.entity.User;
-import org.example.exception.extend.UserNotFoundException;
-import org.example.exception.extend.UsernameTakenException;
+import org.example.exception.extend.user.UserNotFoundException;
+import org.example.exception.extend.user.UsernameTakenException;
 import org.example.mapper.UserMapper;
-import org.example.repo.UserRepo;
+import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
-    private final UserRepo userRepo;
+    private final UserRepository userRepo;
     private final UserMapper userMapper;
 
 

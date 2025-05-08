@@ -1,18 +1,18 @@
 package org.example.service;
 
-import dto.request.RequestSubscriptionDTO;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.example.dto.entity.Subscription;
+import org.example.dto.entity.User;
+import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
 import org.example.dto.response.ResponseUserDTO;
-import org.example.entity.Subscription;
-import org.example.entity.User;
-import org.example.exception.extend.SubscriptionNotFoundException;
-import org.example.exception.extend.UserNotFoundException;
+import org.example.exception.extend.subscription.SubscriptionNotFoundException;
+import org.example.exception.extend.user.UserNotFoundException;
 import org.example.mapper.SubscriptionMapper;
 import org.example.mapper.UserMapper;
-import org.example.repo.SubscriptionRepo;
-import org.example.repo.UserRepo;
+import org.example.repository.SubscriptionRepository;
+import org.example.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserSubscriptionService {
 
-    private final UserRepo userRepo;
-    private final SubscriptionRepo subscriptionRepo;
+    private final UserRepository userRepo;
+    private final SubscriptionRepository subscriptionRepo;
     private final UserMapper userMapper;
     private final SubscriptionMapper subscriptionMapper;
 
