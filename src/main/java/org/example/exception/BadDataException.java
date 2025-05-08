@@ -1,6 +1,6 @@
 package org.example.exception;
 
-import org.example.controlleradvice.Errors;
+import org.example.responses.Errors;
 
 public class BadDataException extends RuntimeException {
     private final Errors errorCode;

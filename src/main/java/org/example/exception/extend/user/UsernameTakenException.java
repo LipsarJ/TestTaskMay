@@ -1,6 +1,6 @@
 package org.example.exception.extend.user;
 
-import org.example.controlleradvice.Errors;
+import org.example.responses.Errors;
 import org.example.exception.BadDataException;
 
 public class UsernameTakenException extends BadDataException {

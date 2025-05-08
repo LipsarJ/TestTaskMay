@@ -5,7 +5,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
-import org.example.controlleradvice.CommonErrorApiResponsesWith404;
+import org.example.responses.CommonErrorApiResponsesWith404;
 import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
 import org.example.dto.response.ResponseUserDTO;

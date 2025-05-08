@@ -1,6 +1,6 @@
 package org.example.controller.advice;
 
-import org.example.controlleradvice.SimpleResponse;
+import org.example.responses.SimpleResponse;
 import org.example.exception.BadDataException;
 import org.example.exception.NotFoundException;
 import org.springframework.http.HttpStatus;

@@ -2,7 +2,7 @@ package org.example.service.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.example.controlleradvice.Errors;
+import org.example.responses.Errors;
 import org.example.dto.entity.User;
 import org.example.dto.request.RequestUserDTO;
 import org.example.dto.response.ResponseUserDTO;
