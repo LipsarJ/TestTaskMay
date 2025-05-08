@@ -1,49 +1,13 @@
 package org.example.service;
 
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.example.controlleradvice.Errors;
-import org.example.dto.entity.Subscription;
 import org.example.dto.request.RequestSubscriptionDTO;
 import org.example.dto.response.ResponseSubscriptionDTO;
-import org.example.exception.extend.subscription.SubscriptionNameIllegal;
-import org.example.exception.extend.subscription.SubscriptionNameTaken;
-import org.example.mapper.SubscriptionMapper;
-import org.example.repository.SubscriptionRepository;
-import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
-@RequiredArgsConstructor
-public class SubscriptionService {
+public interface SubscriptionService {
 
-    private final SubscriptionRepository subscriptionRepo;
-    private final SubscriptionMapper subscriptionMapper;
+    ResponseSubscriptionDTO createSubscription(RequestSubscriptionDTO requestSubscriptionDTO);
 
-    @Transactional
-    public ResponseSubscriptionDTO createSubscription(RequestSubscriptionDTO requestSubscriptionDTO) {
-        Subscription subscription = new Subscription();
-        if (subscriptionRepo.existsByServiceName(requestSubscriptionDTO.getServiceName())) {
-            throw new SubscriptionNameTaken("Subscription with that name is already exists", Errors.SUB_NAME_TAKEN);
-        }
-
-        try {
-            subscription.setServiceName(requestSubscriptionDTO.getServiceName());
-        } catch (IllegalArgumentException e) {
-            throw new SubscriptionNameIllegal("Subscription has wrong name", Errors.SUB_NAME_ILLEGAL);
-        }
-        subscriptionRepo.save(subscription);
-        return subscriptionMapper.toResponseSubscriptionDTO(subscription);
-    }
-
-    public List<ResponseSubscriptionDTO> getTopOfSubscriptions() {
-        List<Subscription> subscriptions = subscriptionRepo.findAll();
-        return subscriptions.stream().sorted(Comparator.comparingInt((Subscription sub) -> sub.getUsers().size()).reversed())
-                .limit(3)
-                .map(subscriptionMapper::toResponseSubscriptionDTO)
-                .collect(Collectors.toList());
-    }
+    List<ResponseSubscriptionDTO> getTopOfSubscriptions();
 }
