@@ -1,4 +1,4 @@
-package org.example.controlleradvice;
+package org.example.responses;
 
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;

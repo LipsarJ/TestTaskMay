@@ -1,4 +1,4 @@
-package org.example.entity;
+package org.example.dto.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -21,9 +21,10 @@ public class Subscription {
     private Long id;
 
     @Column(nullable = false)
-    private String serviceName;
+    @Enumerated(EnumType.STRING)
+    private ServiceName serviceName;
 
-    @ManyToMany(mappedBy = "subscriptionSet")
+    @ManyToMany(mappedBy = "subscriptionSet", fetch = FetchType.LAZY)
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 }

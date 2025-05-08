@@ -1,4 +1,4 @@
-package org.example.exception.extend;
+package org.example.exception.extend.user;
 
 import org.example.exception.NotFoundException;
 
